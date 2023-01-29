@@ -7,14 +7,8 @@ from Render import *
 from os import system
 import time
 
-# inspired from https://gist.github.com/mdonkers/63e115cc0c79b4f6b8b3a6b797e485c7
-
-
 def write_hr(hr="0"):
     write(int(hr))
-    #file = open('./hr.txt', 'w+')
-    #file.write("{}".format(hr))
-    #file.close()
 
 def read_hr():
     return HeartRate[0]
@@ -22,7 +16,6 @@ def read_hr():
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
-        # doesn't even have to be reachable
         s.connect(('10.255.255.255', 1))
         IP = s.getsockname()[0]
     except Exception:
@@ -56,9 +49,8 @@ class HeartBeatHandler(BaseHTTPRequestHandler):
 
 
     def do_POST(self):
-        content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-        post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-        # print("{}\n".format(post_data.decode('utf-8')))
+        content_length = int(self.headers['Content-Length'])
+        post_data = self.rfile.read(content_length)
 
         self._set_response(200)
         self.wfile.write("OK".encode('utf-8'))
